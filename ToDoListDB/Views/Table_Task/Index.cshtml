@@ -17,16 +17,26 @@
 @foreach (var item in Model)
 {
     <li>
-        @*@Html.DisplayFor(modelItem => item.TaskDueDate)*@
-        @item.TaskDueDate @*does the same thing without razor*@
+        @*@Html.DisplayFor(modelItem => item.TaskDone)*@
+        <form method="post" action="@Url.Action("MarkDone", new { id = item.TaskID }) ">
+            <button>
+                @if (item.TaskDone)
+                {
+                    <span class="glyphicon glyphicon-check"></span>
+                }
+                else
+                {
+                    <span class="glyphicon glyphicon-unchecked"></span>
+                }
+            </button>
+        </form>
+        @Html.DisplayFor(modelItem => item.TaskDueDate)
+        @*@item.TaskDueDate*@ @*does the same thing without razor*@
         @*doing stuff in here is a good way to update the html - this is html*@
 
 
         @Html.ActionLink(Html.DisplayFor(modelItem => item.TaskName).ToString(), "Edit", new {id = item.TaskID})
-        @Html.DisplayFor(modelItem => item.TaskDone)
-        @*@Html.ActionLink("<span class=\"glyphicon glyphicon-remove\"></span>"),
-            "Delete", new {id = item.TaskID },
-                new { class = "btn btn-xs btn-danger})*@
+
        <a href="@Url.Action("Delete", new {id = item.TaskID })" class="btn btn-xs btn-danger">
        <span class="glyphicon glyphicon-remove"><span class="text-hide">Delete</span></span></a>
 

@@ -41,6 +41,28 @@ namespace ToDoListDB.Controllers
         {
             return View();
         }
+        //POST: Tasks/MarkDone/5
+        //we are makinga public method
+        [HttpPost]
+        public ActionResult MarkDone(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Table_Task table_Task = db.Table_Task.Find(id);
+            if (table_Task == null)
+            {
+                return HttpNotFound();
+            }
+            table_Task.TaskDone = true;
+            db.Entry(table_Task).State = EntityState.Modified;
+            db.SaveChanges();
+  
+            return RedirectToAction("Index"); //but this doesn't really change the item to marked
+
+        }
+        //this POST needs to be wired to something to work - we need to make the checkbox a FORM so we can POST
 
         // POST: Table_Task/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
