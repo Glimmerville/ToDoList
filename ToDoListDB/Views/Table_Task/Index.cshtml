@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ToDoListDB.Models.Table_Task>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+            @Html.DisplayNameFor(model => model.TaskDueDate)
+            @Html.DisplayNameFor(model => model.TaskName)
+            @Html.DisplayNameFor(model => model.TaskDone)
+  
+
+@foreach (var item in Model) {
+
+            @*@Html.DisplayFor(modelItem => item.TaskDueDate)*@
+            @item.TaskDueDate @*does the same thing without razor*@
+            @*doing stuff in here is a good way to update the html - this is html*@
+
+
+            @Html.DisplayFor(modelItem => item.TaskName)
+            @Html.DisplayFor(modelItem => item.TaskDone)
+
+            @Html.ActionLink("Edit", "Edit", new { id=item.TaskID }) @: |
+            @Html.ActionLink("Details", "Details", new { id=item.TaskID }) @: |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TaskID })
+
+}
+
+
