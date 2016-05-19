@@ -9,26 +9,31 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-
-            @Html.DisplayNameFor(model => model.TaskDueDate)
-            @Html.DisplayNameFor(model => model.TaskName)
-            @Html.DisplayNameFor(model => model.TaskDone)
+@*@Html.DisplayNameFor(model => model.TaskDone)
+    @Html.DisplayNameFor(model => model.TaskName)
+    @Html.DisplayNameFor(model => model.TaskDueDate)*@
   
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
+    <li>
+        @*@Html.DisplayFor(modelItem => item.TaskDueDate)*@
+        @item.TaskDueDate @*does the same thing without razor*@
+        @*doing stuff in here is a good way to update the html - this is html*@
 
-            @*@Html.DisplayFor(modelItem => item.TaskDueDate)*@
-            @item.TaskDueDate @*does the same thing without razor*@
-            @*doing stuff in here is a good way to update the html - this is html*@
 
+        @Html.ActionLink(Html.DisplayFor(modelItem => item.TaskName).ToString(), "Edit", new {id = item.TaskID})
+        @Html.DisplayFor(modelItem => item.TaskDone)
+        @*@Html.ActionLink("<span class=\"glyphicon glyphicon-remove\"></span>"),
+            "Delete", new {id = item.TaskID },
+                new { class = "btn btn-xs btn-danger})*@
+       <a href="@Url.Action("Delete", new {id = item.TaskID })" class="btn btn-xs btn-danger">
+       <span class="glyphicon glyphicon-remove"><span class="text-hide">Delete</span></span></a>
 
-            @Html.DisplayFor(modelItem => item.TaskName)
-            @Html.DisplayFor(modelItem => item.TaskDone)
-
-            @Html.ActionLink("Edit", "Edit", new { id=item.TaskID }) @: |
-            @Html.ActionLink("Details", "Details", new { id=item.TaskID }) @: |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TaskID })
-
+        @*@Html.ActionLink("Edit", "Edit", new { id = item.TaskID }) 
+        @Html.ActionLink("Delete", "Delete", new { id = item.TaskID })*@
+        @*@Html.ActionLink("Details", "Details", new { id = item.TaskID })*@ 
+    </li>
 }
 
 
