@@ -17,21 +17,7 @@
 @foreach (var item in Model)
 {
     <li>
-  
-        @*@Html.DisplayFor(modelItem => item.TaskDone)*@
-        @*<form method="post" action="@{
-            if (item.TaskDone == true)
-                 //We are doing c# inside this IF quote inside razor
-            {
-                @Url.Action("MarkUndone", new { id = item.TaskID });
-                //We had to put this back into razor so it would output it to the screen
-            } else {
-                @Url.Action("MarkDone", new { id = item.TaskID });
-                    }
-        }">*@
         <form method="post" action="@Url.Action("SetDone", new { id = item.TaskID })">
-                @*//this part below works but we wanted to add 'uncheck*@
-        @*<form method="post" action="@Url.Action("MarkDone", new { id = item.TaskID }) ">*@
             <button>
                 @if (item.TaskDone)
                 {
@@ -47,18 +33,34 @@
             @*that we can pass over into the controller to the SetDone if they set the check or uncheck*@
         </form>
         @Html.DisplayFor(modelItem => item.TaskDueDate)
-        @*@item.TaskDueDate*@ @*does the same thing without razor*@
-        @*doing stuff in here is a good way to update the html - this is html*@
-
 
         @Html.ActionLink(Html.DisplayFor(modelItem => item.TaskName).ToString(), "Edit", new {id = item.TaskID})
-
+        
+        @{ 
+            if (item.TaskDueDate != null)
+            {
+                var dueDate = (DateTime)item.TaskDueDate;
+                if (dueDate.Date == DateTime.Now.Date)
+                {
+                    @:Today
+                }
+                else if (dueDate.Date == DateTime.Today.AddDays(1))
+                {
+                    @:Tomorrow
+                }
+                else if (dueDate.Date < DateTime.Today.AddDays(7))
+                {
+                    @dueDate.DayOfWeek
+                }
+                else
+                {
+                    @dueDate.ToString("ddd, M/d")
+                }
+            }
+        }
+        @*//you can do datetime.tostring and then format it*@
        <a href="@Url.Action("Delete", new {id = item.TaskID })" class="btn btn-xs btn-danger">
        <span class="glyphicon glyphicon-remove"><span class="text-hide">Delete</span></span></a>
-
-        @*@Html.ActionLink("Edit", "Edit", new { id = item.TaskID }) 
-        @Html.ActionLink("Delete", "Delete", new { id = item.TaskID })*@
-        @*@Html.ActionLink("Details", "Details", new { id = item.TaskID })*@ 
     </li>
 }
 
