@@ -17,8 +17,9 @@
 @foreach (var item in Model)
 {
     <li>
+  
         @*@Html.DisplayFor(modelItem => item.TaskDone)*@
-        <form method="post" action="@{
+        @*<form method="post" action="@{
             if (item.TaskDone == true)
                  //We are doing c# inside this IF quote inside razor
             {
@@ -27,10 +28,9 @@
             } else {
                 @Url.Action("MarkDone", new { id = item.TaskID });
                     }
-        }">
-
-        
-                @*//this part below works but we wnated to add 'uncheck*@
+        }">*@
+        <form method="post" action="@Url.Action("SetDone", new { id = item.TaskID })">
+                @*//this part below works but we wanted to add 'uncheck*@
         @*<form method="post" action="@Url.Action("MarkDone", new { id = item.TaskID }) ">*@
             <button>
                 @if (item.TaskDone)
@@ -42,6 +42,9 @@
                     <span class="glyphicon glyphicon-unchecked"></span>
                 }
             </button>
+            @Html.Hidden("TaskDone", !item.TaskDone)
+            @*we are adding this hidden form field that we can set to taskdone/not*@
+            @*that we can pass over into the controller to the SetDone if they set the check or uncheck*@
         </form>
         @Html.DisplayFor(modelItem => item.TaskDueDate)
         @*@item.TaskDueDate*@ @*does the same thing without razor*@
