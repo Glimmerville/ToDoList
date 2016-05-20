@@ -42,7 +42,7 @@ namespace ToDoListDB.Controllers
             return View();
         }
         //POST: Tasks/MarkDone/5
-        //we are makinga public method
+        //we are making a public method. This will click but it won't UNclick so we will make another below
         [HttpPost]
         public ActionResult MarkDone(int? id)
         {
@@ -56,13 +56,36 @@ namespace ToDoListDB.Controllers
                 return HttpNotFound();
             }
             table_Task.TaskDone = true;
-            db.Entry(table_Task).State = EntityState.Modified;
             db.SaveChanges();
   
             return RedirectToAction("Index"); //but this doesn't really change the item to marked
 
         }
         //this POST needs to be wired to something to work - we need to make the checkbox a FORM so we can POST
+        //POST: Tasks/MarkUndone/5
+
+        public ActionResult MarkUndone(int? id)
+            //action results usually return views if successful
+            //or a new redirect - take you to another URL
+            //an actionresult is just something we tell the web browser to do.
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return this if they try to edit (markundone) something that doesn't exist
+            }
+            var task = db.Table_Task.Find(id); //this (id) works because we have only one pk
+            if (task == null)
+            {
+                return HttpNotFound();//if it's not found, return a 404
+            }
+            //we got a good id that maps to an actual task object
+            task.TaskDone = false;
+            db.SaveChanges();
+            //redirect ot index
+            return RedirectToAction("Index");
+        }
+    
 
         // POST: Table_Task/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

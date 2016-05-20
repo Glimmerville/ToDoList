@@ -18,7 +18,20 @@
 {
     <li>
         @*@Html.DisplayFor(modelItem => item.TaskDone)*@
-        <form method="post" action="@Url.Action("MarkDone", new { id = item.TaskID }) ">
+        <form method="post" action="@{
+            if (item.TaskDone == true)
+                 //We are doing c# inside this IF quote inside razor
+            {
+                @Url.Action("MarkUndone", new { id = item.TaskID });
+                //We had to put this back into razor so it would output it to the screen
+            } else {
+                @Url.Action("MarkDone", new { id = item.TaskID });
+                    }
+        }">
+
+        
+                @*//this part below works but we wnated to add 'uncheck*@
+        @*<form method="post" action="@Url.Action("MarkDone", new { id = item.TaskID }) ">*@
             <button>
                 @if (item.TaskDone)
                 {
